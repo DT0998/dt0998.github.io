@@ -13,15 +13,15 @@ function NavMobile(props) {
       <ul
         className={`${classes.dropdown} ${
           open ? classes.active : classes.inactive
-        } d-flex flex-column justify-content-between`}
+        } d-flex flex-column justify-content-between list-unstyled pl-0`}
         open={open}
         style={{height: isNavScroll ? "calc(100vh - 58px)" : "calc(100vh - 50px)"}}
       >
         <div>
-          <Link to="/movie" onClick={close}>
-            <li className={`${classes.dropdown_title} py-2 px-2`}>Movies</li>
+          <Link to="/movie-popular" onClick={close}>
+            <li className={`${classes.dropdown_title} py-2 px-2 text-decoration-none`}>Movies</li>
           </Link>
-          <Link to="/tvshow" onClick={close}>
+          <Link to="/tvshow-popular" onClick={close}>
             <li className={`${classes.dropdown_title} py-2 px-2`}>TV Shows</li>
           </Link>
           <Link to="/search" onClick={close}>

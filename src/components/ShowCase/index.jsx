@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import classes from "./style.module.css";
 
 const ShowCase = (props) => {
-  const { to, data, titleMain, type, imgUrl } = props;
+  const { to, data, titleMain, type, img500 } = props;
   // media query
   const isMobile = useMediaQuery("(min-width:320px)");
   const isTablet = useMediaQuery("(min-width:768px)");
@@ -23,7 +23,7 @@ const ShowCase = (props) => {
             type={type}
             title={movie.title}
             id={movie.id}
-            imgUrl={imgUrl}
+            img500={img500}
             posterPath={movie.poster_path}
             originalAlt={movie.original_name}
             originalTitle={movie.original_name}
@@ -45,7 +45,7 @@ const ShowCase = (props) => {
             type={type}
             title={movie.title}
             id={movie.id}
-            imgUrl={imgUrl}
+            img500={img500}
             posterPath={movie.poster_path}
             originalAlt={movie.original_name}
             originalTitle={movie.original_name}
@@ -67,7 +67,7 @@ const ShowCase = (props) => {
             type={type}
             title={movie.title}
             id={movie.id}
-            imgUrl={imgUrl}
+            img500={img500}
             posterPath={movie.poster_path}
             originalAlt={movie.original_name}
             originalTitle={movie.original_name}

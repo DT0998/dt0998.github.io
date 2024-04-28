@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import classes from "./style.module.css";
 import Card from "../../components/Card";
 import SortTable from "../../components/SortTable";
-import httpService from "../../services/http";
+import { getTvshowPopular } from "../../services/api/tvshow";
 
 //option sort
 const options = [
@@ -13,47 +12,36 @@ const options = [
   { value: "vote_average.asc", label: "Rating Ascending" },
 ];
 
-const MovieListPage = () => {
+const TvShowPopularListPage = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [movies, setMovies] = useState([]);
-  const [sort, setSort] = useState("");
-  const IMG_URL = "http://image.tmdb.org/t/p/w500/";
-  const PAGE = "&page=" + page;
-  const SORT = "&sort_by=" + sort;
-  const initialAPI_URL = "/movie/popular?" + PAGE;
-  const [API_URL, setAPI_URL] = useState(initialAPI_URL);
+  const [sort, setSort] = useState(null);
   const [hasError, setHasError] = useState(false);
-
-  // change api url when sort
-  useEffect(() => {
-    if (sort) {
-      setAPI_URL("/discover/movie?" + PAGE + SORT);
-    } else {
-      setAPI_URL("/movie/popular?" + PAGE);
-    }
-  }, [sort, PAGE, SORT]);
+  const IMG_500 = "http://image.tmdb.org/t/p/w500/";
 
   // fetch movie api
   const getMovies = useCallback(async () => {
     try {
-      const data = await httpService.get(API_URL);
-      if (data) {
-        setMovies((prevMovies) => [...prevMovies, ...data?.results]);
+      const resMoviePopularData = await getTvshowPopular(sort, page);
+      if (resMoviePopularData) {
+        setMovies((prevMovies) => [
+          ...prevMovies,
+          ...resMoviePopularData.results,
+        ]);
       }
       // state show button show more
-      setTotalPage(data.total_pages);
+      setTotalPage(resMoviePopularData.total_pages);
       setHasError(false);
     } catch (error) {
       setHasError(true);
-      toast.error("Failed to fetch data. Please try again.");
+      console.error(error);
     }
-  }, [API_URL]);
+  }, [page, sort]);
 
-  // fetch movie
   useEffect(() => {
     getMovies();
-  }, [API_URL, getMovies]);
+  }, [getMovies]);
 
   // show more handle
   const showMoreHandle = () => {
@@ -62,7 +50,7 @@ const MovieListPage = () => {
 
   // change title
   useEffect(() => {
-    document.title = "Movies Popular";
+    document.title = "TV Show";
   }, []);
 
   //  sort movie handle
@@ -75,7 +63,7 @@ const MovieListPage = () => {
   return (
     <React.Fragment>
       <div className="d-flex justify-content-lg-between align-items-center justify-content-center px-4">
-        <h1>Movies Popular</h1>
+        <h1>TV Show</h1>
       </div>
       <div className="d-flex flex-column flex-lg-row gap-lg-4 px-4">
         <div className="col-lg-3 col-12">
@@ -95,24 +83,22 @@ const MovieListPage = () => {
             )}
             {/* list */}
             {!hasError &&
-              movies?.map((movie, index) => {
+              movies.map((movie, index) => {
                 if (movie.poster_path === null) {
                   return null;
                 } else {
                   return (
                     <div
-                      className={`col-4 col-md-2 col-lg-2 col-xl-2`}
                       key={index}
+                      className={`col-4 col-md-2 col-lg-2 col-xl-2`}
                     >
                       <Card
-                        type="movie"
+                        type="tvshow"
                         title={movie.title}
                         id={movie.id}
-                        imgUrl={IMG_URL}
+                        img500={IMG_500}
                         posterPath={movie.poster_path}
-                        originalAlt={
-                          movie.original_name || movie.original_title
-                        }
+                        originalAlt={movie.original_name}
                         originalTitle={movie.original_name}
                         firstAirDate={movie.first_air_date}
                         releaseDate={movie.release_date}
@@ -134,4 +120,4 @@ const MovieListPage = () => {
     </React.Fragment>
   );
 };
-export default MovieListPage;
+export default TvShowPopularListPage;

@@ -69,12 +69,6 @@
     list-style-type: none;
 }
 
-.nav_left a,
-.nav_right a {
-    color: grey;
-    cursor: pointer;
-}
-
 .login_container {
     background-image: linear-gradient(315deg, #08AEEA 15%, #2AF598 85%);
     display: flex;

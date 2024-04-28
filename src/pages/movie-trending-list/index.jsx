@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import classes from "./style.module.css";
 import Card from "../../components/Card";
 import SortTable from "../../components/SortTable";
-import httpService from "../../services/http";
+import { getMoviesTrendingDay } from "../../services/api/movie";
 
 //option sort
 const options = [
@@ -18,30 +16,31 @@ const MovieTrendingListPage = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [movies, setMovies] = useState([]);
-  const IMG_URL = "http://image.tmdb.org/t/p/w500/";
-  const PAGE = "&page=" + page;
-  const API_URL = "/trending/movie/week?" + PAGE;
   const [hasError, setHasError] = useState(false);
+  const IMG_500 = "http://image.tmdb.org/t/p/w500/";
 
   // fetch movie api
   const getMovies = useCallback(async () => {
     try {
-      const data = await httpService.get(API_URL);
-      if (data) {
-        setMovies((prevMovies) => [...prevMovies, ...data.results]);
+      const resMovieTrendingData = await getMoviesTrendingDay(page);
+      if (resMovieTrendingData) {
+        setMovies((prevMovies) => [
+          ...prevMovies,
+          ...resMovieTrendingData.results,
+        ]);
       }
       // state show button show more
-      setTotalPage(data.total_pages);
+      setTotalPage(resMovieTrendingData.total_pages);
       setHasError(false);
     } catch (error) {
       setHasError(true);
-      toast.error("Failed to fetch data. Please try again.");
+      console.error(error);
     }
-  }, [API_URL]);
+  }, [page]);
 
   useEffect(() => {
     getMovies();
-  }, [API_URL, getMovies]);
+  }, [getMovies]);
 
   // show more handle
   const showMoreHandle = () => {
@@ -60,7 +59,7 @@ const MovieTrendingListPage = () => {
       </div>
       <div className="d-flex flex-column flex-lg-row gap-lg-4 px-4">
         <div className="col-lg-3 col-12">
-          <SortTable options={options} />
+          <SortTable options={options} disabled={true} />
         </div>
         <div
           className={`d-flex align-items-center flex-column col-lg-9 col-12`}
@@ -89,7 +88,7 @@ const MovieTrendingListPage = () => {
                         type="movie"
                         title={movie.title}
                         id={movie.id}
-                        imgUrl={IMG_URL}
+                        img500={IMG_500}
                         posterPath={movie.poster_path}
                         originalAlt={movie.original_name}
                         originalTitle={movie.original_name}

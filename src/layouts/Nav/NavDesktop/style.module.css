@@ -1,20 +1,10 @@
-.nav_list {
-  list-style-type: none;
-}
-
 .logo {
   cursor: pointer;
   width: 35px;
   height: 35px;
 }
 
-.nav_left a,
-.nav_right a {
-  color: grey;
-  cursor: pointer;
-}
-
 .active {
-  color: black;
+  color: black !important;
   border-bottom: 3px solid black;
 }

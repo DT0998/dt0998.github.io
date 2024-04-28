@@ -12,7 +12,7 @@ import { Card } from "react-bootstrap";
 SwiperCore.use([Scrollbar]);
 
 const SliderCard = (props) => {
-  const { data, extraClass, IMG_ORG, type, title } = props;
+  const { data, extraClass, img500, type, title } = props;
   const getLink = (movieId) => {
     if (type === "movie") {
       return `/movie/${movieId}`;
@@ -71,11 +71,11 @@ const SliderCard = (props) => {
                             <Card className={classes.slider_card}>
                               <LazyLoadImage
                                 src={
-                                  IMG_ORG +
+                                  img500 +
                                   (movie.backdrop_path || movie.profile_path)
                                 }
                                 placeholderSrc={
-                                  IMG_ORG +
+                                  img500 +
                                   (movie.backdrop_path || movie.profile_path)
                                 }
                                 className={classes.slider_image}

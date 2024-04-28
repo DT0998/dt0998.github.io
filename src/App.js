@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import classes from "./style.module.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "./layouts";
 import { getAllMovieAndTvShow } from "./redux/pages/home/slice";
 // toast
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Routes from "./configs/routes";
+import Loading from "./components/Loading";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,7 @@ function App() {
       setIsLoading(true);
       await dispatch(getAllMovieAndTvShow()).unwrap();
     } catch (error) {
-      toast.error("Failed to fetch data. Please try again.");
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -34,11 +34,7 @@ function App() {
       {/* toast container */}
       <ToastContainer limit={1} />
       {isLoading ? (
-        <div
-          className={`${classes.loading} d-flex justify-content-center align-items-center`}
-        >
-          <div className={classes.loader}></div>
-        </div>
+        <Loading />
       ) : (
         <Layout>
           <Routes />

@@ -10,27 +10,42 @@ const axiosInstance = axios.create({
 // interceptors request
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Add bearer token to the headers if available and where store token
-    const bearerToken = process.env.REACT_APP_BEARER_TOKEN;
+    // Add api key to the headers if available and where store token
+    const apiKey = process.env.REACT_APP_API_KEY;
     if (config.headers) {
-      if (bearerToken) {
-        config.headers.Authorization = `Bearer ${bearerToken}`;
+      if (apiKey) {
+        config.headers.Authorization = `Bearer ${apiKey}`;
       }
     }
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    handleErrorResponse(error);
   }
 );
 
 // interceptors response
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   (error) => {
-    return Promise.reject(error);
+    handleErrorRequest(error);
   }
 );
+
+const handleErrorResponse = (error) => {
+  console.log("error response", error);
+};
+
+const handleErrorRequest = (error) => {
+  if (error.response.status === 401) {
+    toast.error("Invalid API key: You must be granted a valid key.");
+  }
+  if (error.response.status === 404) {
+    toast.error("Failed to fetch data. Please try again.");
+  }
+};
 
 const httpService = {
   updateBaseUrl: (url) => {
@@ -38,48 +53,27 @@ const httpService = {
   },
 
   get: async (url, config) => {
-    try {
-      const response = await axiosInstance.get(url, config);
-      return response.data;
-    } catch (error) {
-      console.error("HTTP GET Error:", error);
-      toast.error("Failed to fetch data. Please try again.");
-    }
+    const response = await axiosInstance.get(url, config);
+    return response.data;
   },
 
   post: async (url, data, config) => {
-    try {
-      const response = await axiosInstance.post(url, data, config);
-      return response.data;
-    } catch (error) {
-      console.error("HTTP POST Error:", error);
-    }
+    const response = await axiosInstance.post(url, data, config);
+    return response.data;
   },
 
   put: async (url, data, config) => {
-    try {
-      const response = await axiosInstance.put(url, data, config);
-      return response.data;
-    } catch (error) {
-      console.error("HTTP PUT Error:", error);
-    }
+    const response = await axiosInstance.put(url, data, config);
+    return response.data;
   },
 
   delete: async (url, config) => {
-    try {
-      const response = await axiosInstance.delete(url, config);
-      return response.data;
-    } catch (error) {
-      console.error("HTTP DELETE Error:", error);
-    }
+    const response = await axiosInstance.delete(url, config);
+    return response.data;
   },
   all: async (requests) => {
-    try {
-      const response = await axios.all(requests);
-      return response;
-    } catch (error) {
-      console.error("HTTP ALL Error:", error);
-    }
+    const response = await axios.all(requests);
+    return response;
   },
 };
 

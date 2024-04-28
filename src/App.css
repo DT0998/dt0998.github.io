@@ -1,6 +1,6 @@
 html,
 body {
-  font-family: "Custom Font";
+  font-family: "SF Pro";
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   height: 100%;
@@ -13,14 +13,5 @@ body {
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
-}
-
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-a {
-  text-decoration: none;
+  box-sizing: border-box;
 }

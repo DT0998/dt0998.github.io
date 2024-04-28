@@ -3,14 +3,15 @@ import classes from "./style.module.css";
 import logo from "../../assets/images/layouts/footer/logo.png";
 // icon
 import { FaDiscord, FaGithub, FaFacebook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className={`${classes.footer} p-3`}>
       <div className="text-center">
-        <a href="/">
+        <Link to="/">
           <img src={logo} className={classes.logo} alt="logo"></img>
-        </a>
+        </Link>
       </div>
 
       <div className="text-center">
@@ -18,7 +19,7 @@ const Footer = () => {
           href="https://github.com/DT0998"
           target="_blank"
           rel="noreferrer"
-          className={classes.inActive_icons}
+          className={`${classes.inActive_icons} text-decoration-none`}
         >
           <FaGithub
             alt="github"

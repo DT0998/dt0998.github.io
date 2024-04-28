@@ -112,29 +112,27 @@ function Layout(props) {
                 className="d-flex flex-row align-items-center justify-content-end"
                 style={{ height: "50px" }}
               >
-                <div className={classes.nav_left}>
-                  <ul
-                    className={`${classes.nav_list} d-flex flex-row justify-content-start align-items-center gap-3 my-0 mx-2`}
-                  >
-                    {!isOpenNavMobile ? (
-                      <FaBars
-                        className={classes.icons_menu}
-                        onClick={() => {
-                          setIsOpenNavMobile(true);
-                          setIsOpenOverlay(true);
-                        }}
-                      />
-                    ) : (
-                      <MdClose
-                        className={classes.icons_menu}
-                        onClick={() => {
-                          setIsOpenNavMobile(false);
-                          setIsOpenOverlay(false);
-                        }}
-                      />
-                    )}
-                  </ul>
-                </div>
+                <ul
+                  className={`${classes.nav_list} d-flex flex-row justify-content-start align-items-center gap-3 my-0 mx-2 list-unstyled pl-0`}
+                >
+                  {!isOpenNavMobile ? (
+                    <FaBars
+                      className={classes.icons_menu}
+                      onClick={() => {
+                        setIsOpenNavMobile(true);
+                        setIsOpenOverlay(true);
+                      }}
+                    />
+                  ) : (
+                    <MdClose
+                      className={classes.icons_menu}
+                      onClick={() => {
+                        setIsOpenNavMobile(false);
+                        setIsOpenOverlay(false);
+                      }}
+                    />
+                  )}
+                </ul>
               </div>
               <NavMobile
                 open={isOpenNavMobile}

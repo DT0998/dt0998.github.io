@@ -1,23 +1,25 @@
 import React, { useEffect } from "react";
-import { Banner } from "../../components/Banner";
 import { useSelector } from "react-redux";
 import {
-  selectorCommunity,
-  selectorMovie,
+  selectorActorPopular,
   selectorMovieLegacy,
-  selectorTvshow,
+  selectorMoviePopular,
+  selectorMovieTrending,
+  selectorTvshowPopular,
 } from "../../redux/pages/home/slice";
 import SliderCard from "../../components/SliderCard";
 import classes from "./style.module.css";
 import ShowCase from "../../components/ShowCase";
-
+import { SliderBanner } from "../../components/SliderBanner";
 
 const HomePage = () => {
-  const movieData = useSelector(selectorMovie);
+  const movieTrendingData = useSelector(selectorMoviePopular);
+  const moviePopularData = useSelector(selectorMovieTrending);
   const movieLegacyData = useSelector(selectorMovieLegacy);
-  const tvshowData = useSelector(selectorTvshow);
-  const communityData = useSelector(selectorCommunity);
-  const IMG_ORG = "https://image.tmdb.org/t/p/w500/";
+  const tvshowData = useSelector(selectorTvshowPopular);
+  const actorPopularData = useSelector(selectorActorPopular);
+  const IMG_ORG = "https://image.tmdb.org/t/p/original/";
+  const IMG_500 = "https://image.tmdb.org/t/p/w500/";
 
   useEffect(() => {
     // change title
@@ -26,34 +28,37 @@ const HomePage = () => {
 
   return (
     <div className="d-flex flex-column">
-      <Banner />
+      <SliderBanner
+        data={movieTrendingData}
+        imgOrg={IMG_ORG}
+        img500={IMG_500}
+      />
       <ShowCase
-        data={movieData}
+        data={moviePopularData}
         type="movie"
-        to="/trending"
+        to="/movie-trending"
         titleMain="Movies Trending"
-        imgUrl={IMG_ORG}
+        img500={IMG_500}
       />
       <ShowCase
         data={movieLegacyData}
         type="movie"
         to="/movie-legacy"
         titleMain="Movies Legacy"
-        imgUrl={IMG_ORG}
+        img500={IMG_500}
       />
       <ShowCase
         data={tvshowData}
         type="tvshow"
-        to="/tvshow"
+        to="/tvshow-popular"
         titleMain="TV Shows"
-        imgUrl={IMG_ORG}
+        img500={IMG_500}
       />
       {/* cast */}
       <SliderCard
-        data={communityData}
-        type="community"
-        IMG_ORG={IMG_ORG}
-        extraClass={classes.community_container}
+        data={actorPopularData}
+        img500={IMG_500}
+        extraClass={classes.actor_container}
         title="Community"
       />
     </div>

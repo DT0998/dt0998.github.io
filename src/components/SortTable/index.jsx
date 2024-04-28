@@ -4,17 +4,18 @@ import Select from "react-select";
 import classes from "./style.module.css";
 
 function SortTable(props) {
-  const { options, onClickSort } = props;
+  const { options, onClickSort, disabled } = props;
   // select
   const [selectedSort, setSelectedSort] = useState(null);
   // open filter table
   const [isOpenTable, setIsOpenTable] = useState(false);
-  // handle open table
-  const openTableHandle = () => {
-    setIsOpenTable(false);
-  };
-  const closeTableHandle = () => {
-    setIsOpenTable(true);
+
+  // handle collapse table
+  const collapseTableHandle = () => {
+    setIsOpenTable(!isOpenTable);
+    if (disabled) {
+      setIsOpenTable(false);
+    }
   };
 
   const handleSortChange = (selectedOption) => {
@@ -28,23 +29,14 @@ function SortTable(props) {
   return (
     <React.Fragment>
       <div className={`${classes.filter_panel} my-3`}>
-        {isOpenTable ? (
-          <div
-            className="d-flex justify-content-between align-items-center"
-            onClick={openTableHandle}
-          >
-            <span>Sort</span>
-            <FaChevronDown />
-          </div>
-        ) : (
-          <div
-            className="d-flex justify-content-between align-items-center"
-            onClick={closeTableHandle}
-          >
-            <span>Sort</span>
-            <FaChevronRight />
-          </div>
-        )}
+        <div
+          className="d-flex justify-content-between align-items-center"
+          onClick={collapseTableHandle}
+        >
+          <span>Sort</span>
+          {isOpenTable ? <FaChevronDown /> : <FaChevronRight />}
+        </div>
+
         {isOpenTable && (
           <div className={`${classes.filter} d-flex flex-column`}>
             <span>Sort Results By</span>

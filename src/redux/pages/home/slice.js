@@ -1,42 +1,38 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
-import httpService from "../../../services/http";
+import {
+  getMoviesLegacy,
+  getMoviesPopular,
+  getMoviesTrendingDay,
+} from "../../../services/api/movie";
+import { getTvshowPopular } from "../../../services/api/tvshow";
+import { getActorPopular } from "../../../services/api/person";
 
 // get movie and tvshow action
 export const getAllMovieAndTvShow = createAsyncThunk(
   "homepage/fetchAllMovieAndTv",
   async () => {
-    const MOVIE_URL_SLIDER = "/movie/popular?";
-    const MOVIE_URL = "/trending/movie/day?";
-    const TVSHOW_URL = "/tv/popular?";
-    const MOVIE_LEGACY_URL = "/movie/top_rated?";
-    const COMMUNITY_URL = "/person/popular?";
-    // fetch all data movie and tvshow
-    // fetch api
-    const fetchMultiURL = async (url) => await httpService.get(url);
-    // map api
-    const HomepageURL = [
-      MOVIE_URL_SLIDER,
-      MOVIE_URL,
-      TVSHOW_URL,
-      MOVIE_LEGACY_URL,
-      COMMUNITY_URL,
-    ].map(fetchMultiURL);
+    // get data
+    const resMoviePopular = await getMoviesPopular();
+    const resMovieTrending = await getMoviesTrendingDay();
+    const resMoviesLegacy = await getMoviesLegacy();
+    const resTvshowPopular = await getTvshowPopular();
+    const resActorPopular = await getActorPopular();
 
-    const responses = await httpService.all(HomepageURL);
-    let SliderData = responses[0].results;
-    let MovieData = responses[1].results;
-    let TvShowData = responses[2].results;
-    let MovieLegacyData = responses[3].results;
-    let CommunityData = responses[4].results;
+    // assign data
+    const moviePopularData = resMoviePopular.results;
+    const movieTrendingData = resMovieTrending.results;
+    const tvShowPopularData = resTvshowPopular.results;
+    const movieLegacyData = resMoviesLegacy.results;
+    const actorPopularData = resActorPopular.results;
     // return data
     return {
-      SliderData,
-      MovieData,
-      TvShowData,
-      MovieLegacyData,
-      CommunityData,
+      moviePopularData,
+      movieTrendingData,
+      tvShowPopularData,
+      movieLegacyData,
+      actorPopularData,
     };
   }
 );
@@ -45,20 +41,20 @@ export const getAllMovieAndTvShow = createAsyncThunk(
 const slice = createSlice({
   name: "homepage",
   initialState: {
-    slider: [],
-    movie: [],
-    tvshow: [],
+    moviePopular: [],
+    movieTrending: [],
+    tvshowPopular: [],
     movieLegacy: [],
-    community: [],
+    actorPopular: [],
   },
   reducers: {},
   extraReducers: {
     [getAllMovieAndTvShow.fulfilled]: (state, action) => {
-      state.slider = action.payload.SliderData;
-      state.movie = action.payload.MovieData;
-      state.tvshow = action.payload.TvShowData;
-      state.movieLegacy = action.payload.MovieLegacyData;
-      state.community = action.payload.CommunityData;
+      state.moviePopular = action.payload.moviePopularData;
+      state.movieTrending = action.payload.movieTrendingData;
+      state.tvshowPopular = action.payload.tvShowPopularData;
+      state.movieLegacy = action.payload.movieLegacyData;
+      state.actorPopular = action.payload.actorPopularData;
     },
   },
 });
@@ -70,9 +66,9 @@ const persistConfig = {
 };
 
 export const homepageActions = slice.actions;
-export const selectorSlider = (state) => state.page.home.slider;
-export const selectorMovie = (state) => state.page.home.movie;
-export const selectorTvshow = (state) => state.page.home.tvshow;
+export const selectorMoviePopular = (state) => state.page.home.moviePopular;
+export const selectorMovieTrending = (state) => state.page.home.movieTrending;
+export const selectorTvshowPopular = (state) => state.page.home.tvshowPopular;
 export const selectorMovieLegacy = (state) => state.page.home.movieLegacy;
-export const selectorCommunity = (state) => state.page.home.community;
+export const selectorActorPopular = (state) => state.page.home.actorPopular;
 export default persistReducer(persistConfig, slice.reducer);

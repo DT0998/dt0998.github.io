@@ -13,7 +13,7 @@ const MovieCard = (props) => {
     type,
     id,
     resCard,
-    imgUrl,
+    img500,
     posterPath,
     originalAlt,
     title,
@@ -51,7 +51,7 @@ const MovieCard = (props) => {
     >
       <Link to={`/${type}/${id}`}>
         <LazyLoadImage
-          src={imgUrl + posterPath}
+          src={img500 + posterPath}
           alt={originalAlt}
           className={`${classes.img_showcase} ${
             activeCard && classes.img_showcase_active
@@ -60,7 +60,7 @@ const MovieCard = (props) => {
           threshold={100}
           delayMethod="debounce"
           delayTime={300}
-          placeholderSrc={imgUrl + posterPath}
+          placeholderSrc={img500 + posterPath}
         />
         <div className={classes.img_container} />
 
@@ -69,7 +69,7 @@ const MovieCard = (props) => {
           <p className={classes.card_date}>
             {formatDate(firstAirDate || releaseDate)}
           </p>
-          <div className={`d-flex align-items-center ${classes.card_vote}`}>
+          <div className={`d-flex align-items-center ${classes.card_vote} text-decoration-none`}>
             <FaStar className="me-2" />
             <p className={extraClassTitle}>{formatStarVote(voteAverage)}</p>
           </div>

@@ -1,38 +1,38 @@
 import React, { useEffect, useState, useCallback } from "react";
 import classes from "./style.module.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import httpService from "../../services/http";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { selectorMoviePopular } from "../../redux/pages/home/slice";
 
 const LoginPage = () => {
   const [loginImg, setLoginImg] = useState([]);
   const [hasError, setHasError] = useState(false);
+  const moviePopularData = useSelector(selectorMoviePopular);
+
   // change title
   useEffect(() => {
     document.title = "Login";
   }, []);
 
-  // api
-  const IMG_ORG = "https://image.tmdb.org/t/p/w500/";
-  const API_URL = "/movie/popular";
+  // url image
+  const IMG_500 = "https://image.tmdb.org/t/p/w500/";
   
   // fetch movie api
   const getLoginImg = useCallback(async () => {
     try {
-      const data = await httpService.get(API_URL);
-      if (data) {
-        setLoginImg(data.results);
+      if (moviePopularData) {
+        setLoginImg(moviePopularData);
       }
       setHasError(false);
     } catch (error) {
       setHasError(true);
-      toast.error("Failed to fetch data. Please try again.");
+      console.error(error);
     }
-  }, [API_URL]);
+  }, [moviePopularData]);
 
   useEffect(() => {
     getLoginImg();
-  }, [API_URL, getLoginImg]);
+  }, [getLoginImg]);
 
   return (
     <div
@@ -69,7 +69,7 @@ const LoginPage = () => {
                   index < 1 && (
                     <LazyLoadImage
                       alt={image.backdrop_path}
-                      src={IMG_ORG + image.backdrop_path}
+                      src={IMG_500 + image.backdrop_path}
                       className={`${classes.login_img} w-100 h-100 d-lg-block d-md-none d-sm-none d-none`}
                       key={image.id}
                     />
