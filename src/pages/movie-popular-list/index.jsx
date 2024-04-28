@@ -87,7 +87,7 @@ const MoviePopularListPage = () => {
                 } else {
                   return (
                     <div
-                      className={`col-4 col-md-2 col-lg-2 col-xl-2`}
+                      className={`col-5 col-md-2 col-lg-2 col-xl-2`}
                       key={index}
                     >
                       <Card

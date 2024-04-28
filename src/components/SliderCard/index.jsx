@@ -66,7 +66,10 @@ const SliderCard = (props) => {
                     return (
                       index < 7 && (
                         <SwiperSlide key={movie.id}>
-                          <Link to={getLink(movie.id)}>
+                          <Link
+                            to={getLink(movie.id)}
+                            className="text-decoration-none"
+                          >
                             {/* Use movie properties instead of props */}
                             <Card className={classes.slider_card}>
                               <LazyLoadImage

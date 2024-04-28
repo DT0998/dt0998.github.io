@@ -18,13 +18,13 @@ function NavMobile(props) {
         style={{height: isNavScroll ? "calc(100vh - 58px)" : "calc(100vh - 50px)"}}
       >
         <div>
-          <Link to="/movie-popular" onClick={close}>
-            <li className={`${classes.dropdown_title} py-2 px-2 text-decoration-none`}>Movies</li>
+          <Link to="/movie-popular" onClick={close} className="text-decoration-none">
+            <li className={`${classes.dropdown_title} py-2 px-2`}>Movies</li>
           </Link>
-          <Link to="/tvshow-popular" onClick={close}>
+          <Link to="/tvshow-popular" onClick={close} className="text-decoration-none">
             <li className={`${classes.dropdown_title} py-2 px-2`}>TV Shows</li>
           </Link>
-          <Link to="/search" onClick={close}>
+          <Link to="/search" onClick={close} className="text-decoration-none">
             <li
               className={`${classes.dropdown_title} d-flex justify-content-between align-items-center py-2 px-2`}
             >
@@ -32,7 +32,7 @@ function NavMobile(props) {
               <FaSearch />
             </li>
           </Link>
-          <Link to="/login" onClick={close}>
+          <Link to="/login" onClick={close} className="text-decoration-none">
             <li className={`${classes.dropdown_title} py-2 px-2`}>
               Login
             </li>

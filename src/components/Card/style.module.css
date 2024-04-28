@@ -5,7 +5,8 @@
     width: 100%;
     position: relative;
     z-index: 10;
-    transition: 2s ease;
+    transition: all 1s ease;
+    animation: scaleImgDeactive 1s forwards;
 }
 
 .img_container {
@@ -51,7 +52,8 @@
 }
 
 .img_showcase_active {
-    transform: scale(1.2);
+    transition: all 1s ease;
+    animation: scaleImgActive 1s forwards;
 }
 
 .card_showcase {
@@ -70,4 +72,27 @@
 
 .showcase_title {
     cursor: default;
+}
+
+
+@keyframes scaleImgActive {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+
+}
+
+@keyframes scaleImgDeactive {
+    0% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+    
 }

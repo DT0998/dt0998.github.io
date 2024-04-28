@@ -49,7 +49,7 @@ const MovieCard = (props) => {
       onMouseLeave={() => setActiveCard(false)}
       onMouseEnter={() => setActiveCard(true)}
     >
-      <Link to={`/${type}/${id}`}>
+      <Link to={`/${type}/${id}`} className="text-decoration-none">
         <LazyLoadImage
           src={img500 + posterPath}
           alt={originalAlt}
@@ -69,7 +69,7 @@ const MovieCard = (props) => {
           <p className={classes.card_date}>
             {formatDate(firstAirDate || releaseDate)}
           </p>
-          <div className={`d-flex align-items-center ${classes.card_vote} text-decoration-none`}>
+          <div className={`d-flex align-items-center ${classes.card_vote} `}>
             <FaStar className="me-2" />
             <p className={extraClassTitle}>{formatStarVote(voteAverage)}</p>
           </div>
