@@ -4,6 +4,10 @@ export const getMoviesAndTvshowBannerDetails = async (type, id) => {
   return await httpService.get(`/${type}/${id}`);
 };
 
+export const getMoviesAndTvshowGenresDetails = async (type, id) => {
+  return await httpService.get(`/${type}/${id}`);
+};
+
 export const getMoviesAndTvshowTrailerDetails = async (type, id) => {
   return await httpService.get(`/${type}/${id}/videos`);
 };

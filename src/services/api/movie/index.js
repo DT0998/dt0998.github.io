@@ -6,7 +6,7 @@ export const getMoviesPopular = async (sort, page = 1) => {
   if (sort) {
     return await httpService.get(`/discover/movie?${PAGE}${SORT}`);
   } else {
-    return await httpService.get(`/movie/popular?${PAGE}${SORT}`);
+    return await httpService.get(`/movie/popular?${PAGE}`);
   }
 };
 

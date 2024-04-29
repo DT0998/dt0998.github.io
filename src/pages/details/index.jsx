@@ -2,8 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import classes from "./style.module.css";
 import SliderCard from "../../components/SliderCard";
-import httpService from "../../services/http";
 import { Banner } from "../../components/Banner";
+import {
+  getMoviesAndTvshowBannerDetails,
+  getMoviesAndTvshowCastDetails,
+  getMoviesAndTvshowGenresDetails,
+  getMoviesAndTvshowRecommendDetails,
+  getMoviesAndTvshowTrailerDetails,
+} from "../../services/api/details";
 
 const DetailsMoviePage = (props) => {
   const { type, titleDetail } = props;
@@ -14,13 +20,8 @@ const DetailsMoviePage = (props) => {
   const [casts, setCasts] = useState([]);
   const [recommends, setRecommends] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const IMG_ORG = "https://image.tmdb.org/t/p/original/";
   const IMG_500 = "http://image.tmdb.org/t/p/w500/";
-  const API_URL = `/${type}/${id}`;
-  const API_URL_TRAILER = `/${type}/${id}/videos`;
-  const API_URL_CAST = `/${type}/${id}/credits`;
-  const API_URL_RECOMMEND = `/${type}/${id}/recommendations`;
 
   // format date
   const formatDate = (date) => {
@@ -38,11 +39,17 @@ const DetailsMoviePage = (props) => {
   const getDetailsMovie = useCallback(async () => {
     try {
       setIsLoading(true);
-      const resBannerDetails = await httpService.get(API_URL);
-      const resGenresDetails = await httpService.get(API_URL);
-      const resTrailerDetails = await httpService.get(API_URL_TRAILER);
-      const resCastDetails = await httpService.get(API_URL_CAST);
-      const resRecommendDetails = await httpService.get(API_URL_RECOMMEND);
+      const resBannerDetails = await getMoviesAndTvshowBannerDetails(type, id);
+      const resGenresDetails = await getMoviesAndTvshowGenresDetails(type, id);
+      const resTrailerDetails = await getMoviesAndTvshowTrailerDetails(
+        type,
+        id
+      );
+      const resCastDetails = await getMoviesAndTvshowCastDetails(type, id);
+      const resRecommendDetails = await getMoviesAndTvshowRecommendDetails(
+        type,
+        id
+      );
       if (resBannerDetails) {
         setBanner(resBannerDetails);
       }
@@ -63,7 +70,7 @@ const DetailsMoviePage = (props) => {
     } finally {
       setIsLoading(false);
     }
-  }, [API_URL, API_URL_CAST, API_URL_RECOMMEND, API_URL_TRAILER]);
+  }, [id, type]);
 
   useEffect(() => {
     getDetailsMovie();
