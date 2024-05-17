@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    handleErrorResponse(error);
+    handleErrorRequest(error);
   }
 );
 
