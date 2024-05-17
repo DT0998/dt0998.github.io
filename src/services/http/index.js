@@ -30,15 +30,15 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    handleErrorRequest(error);
+    handleErrorResponse(error);
   }
 );
 
-const handleErrorResponse = (error) => {
+const handleErrorRequest = (error) => {
   console.log("error response", error);
 };
 
-const handleErrorRequest = (error) => {
+const handleErrorResponse = (error) => {
   if (error.response.status === 401) {
     toast.error("Invalid API key: You must be granted a valid key.");
   }
